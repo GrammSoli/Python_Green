@@ -14,7 +14,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-# Шаг 1: Выбор даты
+# Выбор даты
 def get_previous_month_range(date):
     # Вычисляем первый день текущего месяца
     first_day_of_month = datetime.date(date.year, date.month, 1)
@@ -52,16 +52,16 @@ df = pd.DataFrame()
 
 for n in currency:
 
-    # Установка пути к веб-драйверу (например, Chrome)
+    # Установка пути к веб-драйверу
     driver_path = 'C:/Users/Mikhail/Documents/chromedriver.exe'
 
     # Создание экземпляра веб-драйвера
     driver = webdriver.Chrome(driver_path)
 
-    # Шаг 1: Открыть https://www.moex.com
+    # Открыть https://www.moex.com
     driver.get(f"https://www.moex.com/ru/derivatives/currency-rate.aspx?currency={n}")
 
-    #  ожидание загрузки страницы
+    # Ожидание загрузки страницы
     wait = WebDriverWait(driver, 10)
     wait.until(EC.title_contains("Индикативные курсы валют — Московская Биржа | Рынки"))
 
@@ -131,9 +131,6 @@ for n in currency:
             # Получение данных из ячеек текущей строки
             row_data = [cell.get_text(strip=True) for cell in cells]
 
-            # Удаление ненужных столбцов из данных текущей строки
-            # del row_data[1:3]
-
             # Проверка длины row_data и temp_header_row
             if len(row_data) == len(temp_header_row):
                 # Создание нового DataFrame с временными столбцами
@@ -160,8 +157,6 @@ for n in currency:
     merged_df.to_excel(excel_writer, sheet_name='Sheet1', index=False)
     excel_writer.book.save('data.xlsx')
     excel_writer.book.close()
-
-
 
     # Закрытие браузера
     driver.quit()
